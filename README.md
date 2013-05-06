@@ -14,7 +14,7 @@ The extension interface is through the context menu in Safari. When on a page in
 Installation
 ============
 
-Download and install the SendTo Safari Extension
+[Download and install the SendTo Safari Extension](https://github.com/prenagha/SendToExtension/raw/master/SendTo.safariextz)
 
 After installing in Safari visit Preferences, Extensions, SendTo and
 enter your Instapaper user name and password (if you use them).
