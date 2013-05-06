@@ -22,7 +22,7 @@ enter your Instapaper user name and password (if you use them).
 Screenshots
 ===========
 
-[Settings](settings.png)
+![Settings](settings.png)
 
-[Context Menu](screenshot.png)
+![Context Menu](screenshot.png)
 
