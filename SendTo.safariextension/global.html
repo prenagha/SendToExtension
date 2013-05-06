@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<title>SendTo</title>
+<script type="text/javascript">
+
+function sendto_command_listener(event) {
+  if (event.command === "com.renaghan.sendto.feedwrangler") {
+    if (event.userInfo && event.userInfo.length > 2) {
+      var url = 'https://feedwrangler.net/feeds/bookmarklet?feed_url=' + encodeURIComponent(event.userInfo);
+      safari.application.activeBrowserWindow.activeTab.url = url;
+    } else {
+      alert("Cannot find URL to send to Feed Wrangler");
+    }
+  } else if (event.command === "com.renaghan.sendto.instapaper") {
+    if (event.userInfo && event.userInfo.length > 2) {
+      var url = "https://www.instapaper.com/api/add/?redirect=close"
+        + "&username=" + encodeURIComponent(safari.extension.secureSettings.instapaperuserid)
+        + "&password=" + encodeURIComponent(safari.extension.secureSettings.instapaperpassword)
+        + "&url=" + encodeURIComponent(event.userInfo);
+      safari.application.activeBrowserWindow.activeTab.url = url;
+    } else {
+      alert("Cannot find URL to send to Instapaper");
+    }
+  }
+}
+
+function sendto_validate_listener(event) {
+  if (event.command === "com.renaghan.sendto.feedwrangler" 
+  ||  event.command === "com.renaghan.sendto.instapaper") {
+    if (event.userInfo && event.userInfo.length > 2) {
+      console.log("sendto_validate_listener valid: " + event.userInfo);
+      event.target.disabled = false;
+    } else {
+      console.log("sendto_validate_listener invalid");
+      event.target.disabled = true;
+    }
+  }
+}
+
+safari.application.addEventListener('command', sendto_command_listener, false);
+safari.application.addEventListener('validate', sendto_validate_listener, false);
+
+</script>
