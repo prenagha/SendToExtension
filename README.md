@@ -21,19 +21,21 @@ Double-click the downloaded SendTo.safariextz file to install it in Safari.
 Visit Safari Preferences, Extensions, SendTo and
 enter your Instapaper user name and password (if you use them).
 
-Changes
-=======
-
-v1.1: Limit look for parent element loop to 10
-v1.1: Support feed:// and rss:// URLs
-v1.1: Prefer non-comment feeds
-
-v1.0: Initial release
-
 Screenshots
 ===========
 
 ![Settings](settings.png)
 
 ![Context Menu](screenshot.png)
+
+Changes
+=======
+
+v1.1: Limit look for parent element loop to 10
+
+v1.1: Support feed:// and rss:// URLs
+
+v1.1: Prefer non-comment feeds
+
+v1.0: Initial release
 
