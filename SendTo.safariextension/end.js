@@ -8,14 +8,38 @@ function sendto_handlecontextmenu_listener(event) {
     // otherwise look in the document for a feed url
     if (!data) {
       var links = document.getElementsByTagName('link');
-      for (var i=0; i < links.length; i++) {
-        var link = links[i];
-        if (link.getAttribute('rel').indexOf('alternate') >= 0) {
-          var linkType = link.getAttribute('type');
-          if (linkType.indexOf('application/rss+xml') >= 0 
-          ||  linkType.indexOf('text/xml') >= 0 
-          ||  linkType.indexOf('atom+xml') >= 0) {
-            data = link.getAttribute('href');
+      // prefer atom non comment feed first
+      // prefer any non comment feed next
+      // lastly take whatever feed we find
+      for (var p=1; p <= 3; p++) {
+        for (var i=0; i < links.length; i++) {
+          var link = links[i];
+          if (link.getAttribute('rel').indexOf('alternate') >= 0) {
+            var linkType = link.getAttribute('type');
+            if (!linkType)
+              continue;
+            linkType = linkType.toLowerCase();
+            var href = link.getAttribute('href');
+            if (!href)
+              continue;
+            var title = link.getAttribute('title');
+            if (!title)
+              title = "";
+            title = title.toLowerCase();
+            if (linkType.indexOf('rss') >= 0 
+            ||  linkType.indexOf('atom') >= 0
+            ||  linkType.indexOf('xml') >= 0) {
+              if (p === 1 && linkType.indexOf('atom') >= 0 && title.indexOf('comment') < 0) {
+                data = href;
+                break;
+              } else if (p === 2 && title.indexOf('comment') < 0) {
+                data = href;
+                break;
+              } else if (p === 3) {
+                data = href;
+                break;
+              }
+            }
           }
         }
       }
@@ -29,7 +53,10 @@ function sendto_handlecontextmenu_listener(event) {
     if (!data || data.length <= 2)
       return;
                 
-    if (data.indexOf('http') === 0) {
+    if (data.indexOf('http://') === 0 
+    ||  data.indexOf('https://') === 0
+    ||  data.indexOf('feed://') === 0 
+    ||  data.indexOf('rss://') === 0) {
       // we have a full url so good to go
       
     } else if (data.substring(8).indexOf('://') > 0) {
@@ -53,7 +80,8 @@ function sendto_handlecontextmenu_listener(event) {
 
 function sendto_findlink(target) {
   var currentElement = target;
-  while (currentElement != null) {
+  var count = 1;
+  while (currentElement != null && count < 10) {
     if (currentElement.nodeType == Node.ELEMENT_NODE 
     && currentElement.nodeName.toLowerCase() == 'a'
     && currentElement.href 
@@ -61,6 +89,7 @@ function sendto_findlink(target) {
       return currentElement.href;
     }
     currentElement = currentElement.parentNode;
+    count++;
   }
 }
 
