@@ -31,6 +31,8 @@ Screenshots
 Changes
 =======
 
+v1.2: Developer Id change
+
 v1.1: Limit look for parent element loop to 10
 
 v1.1: Support feed:// and rss:// URLs
